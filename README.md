@@ -1,9 +1,9 @@
 Enumerable.js
 -------------
 
-*enumerating utility functions to empower your .each*
+*utility functions for your iteratable classes*
 
-This is a port of Ruby's Enumerable module into JavaScript. Simply define what `.each` means for your class, and you gain access to a wealth of functions, including reduce, filter, eachSlice, etc.
+This is a port of Ruby's Enumerable module into JavaScript. Simply define what `.each` means for your class, and you gain access to a wealth of functions, including `reduce`, `filter`, `eachSlice`, etc.
 
 Quickstart
 ==========
@@ -22,11 +22,11 @@ LinkedList.prototype.each = function(cb){
 
 There are two ways to inherit from Enumerable.js. Either use Enumerable#extend, like so
 
-`Enumerable.extend(LinkedList.prototype);`
+`enumerable.extend(LinkedList.prototype);`
 
 Or use Object.create to inherit from Enumerable.
 
-`var LinkedList = Object.create(Enumerable);`
+`var LinkedList = Object.create(enumerable);`
 
 ---
 
