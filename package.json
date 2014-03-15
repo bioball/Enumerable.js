@@ -1,0 +1,27 @@
+{
+  "name": "enumerable.js",
+  "version": "0.0.0",
+  "description": "Ruby's Enumerable module for JavaScript",
+  "main": "enumerable.js",
+  "devDependencies": {
+    "chai": "~1.9.0"
+  },
+  "scripts": {
+    "test": "mocha -R spec spec/main.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/bioball/Enumerable.js.git"
+  },
+  "keywords": [
+    "Enumerable",
+    "Iterative",
+    "Underscore"
+  ],
+  "author": "Daniel Chao",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/bioball/Enumerable.js/issues"
+  },
+  "homepage": "https://github.com/bioball/Enumerable.js"
+}

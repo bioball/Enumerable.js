@@ -1,12 +1,25 @@
-(function(root){
+'use strict';
+
+(function(){
+
+  var root = this;
   // this is used to "break" out of an each loop
   var BreakException = function(result){
     this.result = result;
   };
 
-  root.enumerable = enumerable = {};
+  // store the old enumerable
+  var oldEnumerable = root.enumerable;
+
+  var enumerable = {};
+
+  enumerable.noConflict = function noConflict(){
+    root.enumerable = oldEnumerable;
+    return enumerable;
+  };
 
   enumerable.eachSlice = function eachSlice(callback, num){
+    if(!num){ throw new SyntaxError('need a slice size passed in as a second argument') }
     var currentSlice = [];
     this.each(function(item){
       currentSlice.push(item);
@@ -30,7 +43,7 @@
   enumerable.filter = enumerable.select = function filter(callback){
     var result = [];
     this.each(function(item){
-      if(filter(item)){
+      if(callback(item)){
         result.push(item);
       }
     });
@@ -74,13 +87,16 @@
   };
 
   enumerable.any = function any(callback){
-    return this.all(function(item){
+    return !this.all(function(item){
       return !callback(item);
     });
   };
 
-  // since JavaScript primitives are immutable, a property reference is needed to correctly map
-  enumerable.map = function map(callback, property){
+  // IMPORTANT TO NOTE: JavaScript primitives are immutable, and this function is designed
+  // to mutate each object, so it will not work if the `each` item is a primitive.
+  // if using primitives, you should use ECMAScript5's native Array.prototype.map
+
+  enumerable.mapInPlace = function mapInPlace(callback, property){
     this.each(function(item){
       item = callback(item);
     });
@@ -106,4 +122,13 @@
     return result;
   };
 
-})(this);
+  if(typeof exports !== 'undefined') {
+    if(typeof module !== 'undefined' && module.exports) {
+      exports = module.exports = enumerable;
+    }
+    exports.enumerable = enumerable;
+  } else {
+    root.enumerable = enumerable
+  }
+
+}).call(this);

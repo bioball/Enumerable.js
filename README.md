@@ -3,12 +3,12 @@ Enumerable.js
 
 *utility functions for your iteratable classes*
 
-This is a port of Ruby's Enumerable module into JavaScript. Simply define what `.each` means for your class, and you gain access to a wealth of functions, including `reduce`, `filter`, `eachSlice`, etc.
+This is a port of Ruby's Enumerable module into JavaScript. Simply define what `.each` means for your class, and you gain access to a wealth of functions, including `reduce`, `filter`, `eachSlice, etc.
 
 Quickstart
 ==========
 
-For a class that may be iterated over, define what `.each` means. For example, given a LinkedList, it might look like this
+For a class that may be iterated over, simply define what `.each` means, then extend your class to enumerable. For example, given a LinkedList, it might look like this
 
 ````
 LinkedList.prototype.each = function(cb){
