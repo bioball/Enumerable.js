@@ -1,3 +1,5 @@
+'use strict';
+
 var enumerable = require('../enumerable');
 var expect     = require('chai').expect;
 
@@ -13,6 +15,20 @@ describe('enumerable', function(){
     expect(enumerable.inject).to.equal(enumerable.reduce);
   });
 
+  it('should respond to all enumerable functions', function(){
+    expect(enumerable).to.respondTo('eachSlice');
+    expect(enumerable).to.respondTo('reduce');
+    expect(enumerable).to.respondTo('filter');
+    expect(enumerable).to.respondTo('find');
+    expect(enumerable).to.respondTo('all');
+    expect(enumerable).to.respondTo('any');
+    expect(enumerable).to.respondTo('mapInPlace');
+    expect(enumerable).to.respondTo('extend');
+    expect(enumerable).to.respondTo('noConflict');
+    expect(enumerable).to.respondTo('count');
+    expect(enumerable).to.respondTo('toArray');
+  });
+
   describe('with linked lists', function(){
     var list;
 
@@ -24,6 +40,7 @@ describe('enumerable', function(){
       list.add(5);
       list.add(6);
     });
+
 
     it('should be able to reduce', function(){
       var sum = list.reduce(function(sum, node){
@@ -97,10 +114,44 @@ describe('enumerable', function(){
       expect(nodeSlices[1].length).to.equal(2);
       expect(nodeSlices[2].length).to.equal(1);
       expect(Array.isArray(nodeSlices[0])).to.be.true;
-
       expect(nodeSlices[0][0]).to.equal(list.head);
       expect(nodeSlices[0][1]).to.equal(list.head.next);
 
     });
+
+    it('should count properly when no condition is passed in', function(){
+      expect(list.count()).to.equal(4);
+      list.add(13);
+      expect(list.count()).to.equal(5);
+    });
+
+    it('should count properly when a function is supplied', function(){
+      var count = list.count(function(node){
+        return node.value % 2 == 0;
+      })
+      expect(count).to.equal(2);
+      list.add(14);
+
+      count = list.count(function(node){
+        return node.value % 2 == 0;
+      });
+      expect(count).to.equal(3);
+    });
+
+    it('should count properly when a non-object condition is supplied', function(){
+      var countHead = list.count(list.head);
+      var countNum = list.count(9);
+
+      expect(countHead).to.equal(1);
+      expect(countNum).to.equal(0);
+    });
+
+    it('should be able to put everything in an array', function(){
+      var arr = list.toArray();
+      expect(Array.isArray(arr)).to.be.true;
+      expect(arr.length).to.equal(4);
+      expect(arr[0]).to.equal(list.head);
+      expect(arr[arr.length - 1]).to.equal(list.tail);
+    })
   });
 });

@@ -69,6 +69,23 @@
     }
   };
 
+  // if no condition is supplied, returns the number of items total
+  // if a function is supplied as the condition, counts the number of items for which the condition passes
+  // otherwise, counts the number of items that strictly equal the passed in object
+
+  enumerable.count = function count(condition){
+    var result = 0;
+    var callback = typeof condition === 'function' 
+    ? condition 
+    : function(item){
+      return item === condition;
+    };
+    this.each(function(item){
+      condition ? callback(item) && result++ : result++;
+    });
+    return result;
+  };
+
   enumerable.all = function all(callback){
     try {
       this.each(function(item){
