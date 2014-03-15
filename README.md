@@ -1,5 +1,7 @@
-Enumerable.js | *utility functions for your iteratable classes*
+Enumerable.js
 -------------
+
+### *utility functions for your iteratable classes*
 
 When you use a JavaScript array or hash table, you have so many ways to get utility functions at your disposal through libraries like Underscore, Zepto, jQuery, or natively in ECMAScript5. Why can't we have these same utility functions just as easily for other data structures that can be enumerated over?
 
