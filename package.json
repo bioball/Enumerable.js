@@ -1,7 +1,7 @@
 {
   "name": "enumerable.js",
   "version": "0.0.0",
-  "description": "Ruby's Enumerable module for JavaScript",
+  "description": "Utility functions extendable beyond arrays and hash tables",
   "main": "enumerable.js",
   "devDependencies": {
     "chai": "~1.9.0"

@@ -5,43 +5,38 @@
   var root = this;
 
   // this is used to "break" out of an each loop
-  var BreakException = function(result){
+
+  var Breaker = function(result){
     this.result = result;
   };
 
   // store the old enumerable
+
   var oldEnumerable = root.enumerable;
 
   var enumerable = {};
+
+  enumerable.VERSION = '0.0.0';
+
+  // if enumerable was being used, it may be reinstated by invoking noConflict. However, this will remove the enumerable
+  // library unless it is saved to a variable.
 
   enumerable.noConflict = function noConflict(){
     root.enumerable = oldEnumerable;
     return enumerable;
   };
 
-  enumerable.eachSlice = function eachSlice(callback, num, context){
-    if(typeof num !== 'number'){ throw new SyntaxError('need a number passed in as a second argument') }
-    context = context || this;
-    var currentSlice = [];
-    this.each(function(item){
-      currentSlice.push(item);
-      if(currentSlice.length == num){
-        callback.call(context, currentSlice);
-        currentSlice = [];
-      }
-    });
-    if(currentSlice.length){
-      callback.call(context, currentSlice);
-    }
-  }
+  // returns the result of combining all items in the collection into one, via the seed object
 
-  enumerable.reduce = enumerable.inject = function reduce(callback, seed, context){
+  enumerable.reduce = enumerable.inject = enumerable.foldl = function reduce(callback, seed, context){
     context = context || this;
     this.each(function(item){
       seed = callback.call(context, seed, item);
     });
     return seed;
   };
+
+  // returns an array of all items for which the callback returns truthy
 
   enumerable.filter = enumerable.select = enumerable.findAll = function filter(callback, context){
     context = context || this;
@@ -54,24 +49,24 @@
     return result;
   };
 
+  // returns the first item for which the callback returns truthy
+
   enumerable.find = function find(callback, context){
     context = context || this;
     var result = null;
     try {
       this.each(function(item){
         if(callback.call(context, item)){
-          throw new BreakException(item);
+          result = item;
+          throw new Breaker();
         }
       });
     } catch(e) {
-      if(e instanceof BreakException){
-        result = e.result;
-      } else {
+      if(!(e instanceof Breaker)){
         throw e;
       }
-    } finally {
-      return result;
     }
+    return result;
   };
 
   // if no condition is supplied, returns the number of items total
@@ -92,16 +87,18 @@
     return result;
   };
 
+  // returns true if the callback on every item is truthy
+
   enumerable.all = function all(callback, context){
     context = context || this;
     try {
       this.each(function(item){
         if(!callback.call(context, item)){
-          throw new BreakException();
+          throw new Breaker();
         }
       });
     } catch(e) {
-      if(e instanceof BreakException){
+      if(e instanceof Breaker){
         return false;
       } else {
         throw e;
@@ -109,6 +106,8 @@
     }
     return true;
   };
+
+  // returns true if the callback on any item is truthy
 
   enumerable.any = function any(callback, context){
     context = context || this;
@@ -120,15 +119,27 @@
   // IMPORTANT TO NOTE: JavaScript primitives are immutable, and this function is designed
   // to mutate each object, so it will not work if the `each` item is a primitive.
 
-  enumerable.mapInPlace = function mapInPlace(callback, property, context){
+  enumerable.mapInPlace = function mapInPlace(callback, context){
     context = context || this;
     this.each(function(item){
       item = callback.call(context, item);
     });
   };
 
+  // returns an array of ths result invoking the callback on each item in the collection
+
+  enumerable.mapToArray = function mapToArray(callback, context){
+    context = context || this;
+    var result = [];
+    this.each(function(item){
+      result.push(callback.call(context, item));
+    });
+    return result;
+  };
+
   // if two objects are passed in, it will extend properties of the first object to the second object.
   // otherwise, if just one is passed in, it will extend enumerable to that object.
+
   enumerable.extend = function extend(obj1, obj2){
     if(!obj2){
       this.extend(this, obj1);
@@ -139,23 +150,27 @@
     }
   };
 
+  // returns all the items in the collection in an array format
+
   enumerable.toArray = function toArray(){
-    var result = [];
-    this.each(function(item){
-      result.push(item);
+    return this.mapToArray(function(item){
+      return item;
     });
-    return result;
   };
+
+  // executes the callback on every item in the collection num amount of times
 
   enumerable.cycle = function cycle(callback, num, context){
     context = context || this;
     if(typeof num !== 'number'){ throw new SyntaxError('need a number passed in as the second argument'); }
-    var count = 0;
-    while(count < num){
+    num = Math.floor(Math.abs(num));
+    while(num){
       this.each.call(context, callback);
-      count++;
+      num--;
     }
   };
+
+  // returns the first item for which the callback returns falsy
 
   enumerable.detect = function detect(callback, context){
     context = context || this;
@@ -163,6 +178,11 @@
       return !callback.call(context, node);
     });
   };
+
+  // invokes the callback on num-consecutive items in an array format
+  // [1,2,3,4].eachCons(function(console.log(nums)), 3);
+  // #=> [1,2,3]
+  // #=> [2,3,4]
 
   enumerable.eachCons = function eachCons(callback, num, context){
     context = context || this;
@@ -174,41 +194,60 @@
         self.eachUntilN(function(node){
           collection.push(node);
         }, num, this, index);
-        if(collection.length !== num){ throw new BreakException(); }
+        if(collection.length !== num){ throw new Breaker(); }
         callback.call(context, collection);
         index++;
       });
     } catch(e){
-      if(!(e instanceof BreakException)){
+      if(!(e instanceof Breaker)){
         throw e;
       }
     }
   };
+
+  // slices the collection up into num-sized arrays, and invokes the callback on them
+
+  enumerable.eachSlice = function eachSlice(callback, num, context){
+    if(typeof num !== 'number'){ throw new SyntaxError('need a number passed in as a second argument') }
+    context = context || this;
+    var currentSlice = [];
+    this.each(function(item){
+      currentSlice.push(item);
+      if(currentSlice.length == num){
+        callback.call(context, currentSlice);
+        currentSlice = [];
+      }
+    });
+    if(currentSlice.length){
+      callback.call(context, currentSlice);
+    }
+  }
 
   // iterates the given callback for the first N elements only. If a start index is given, it starts at that element
 
   enumerable.eachUntilN = function eachUntilN(callback, num, context, start){
     start = start || 0;
     context = context || this;
-    var count = 0;
-    var index = 0;
+    var index = -1;
+    if(typeof num !== 'number' || num < 0){ throw new TypeError('need a positive integer number as a second argument') }
     try {
       this.each(function(item){
-        if(index >= start){
-          callback.call(context, item);
-          count++;
-        }
         index++;
-        if(count == num){
-          throw new BreakException();
+        if(index < start){ return; }
+        callback.call(context, item);
+        num--;
+        if(num === 0){
+          throw new Breaker();
         }
       });
     } catch(e) {
-      if(!(e instanceof BreakException)){
+      if(!(e instanceof Breaker)){
         throw e;
       }
     }
   };
+
+  // returns the first item in the collection. If a numerical argument is given, returns the first num arguments in an array
 
   enumerable.first = function first(num){
     var count = 0;
@@ -217,24 +256,26 @@
       if(typeof num !== 'number'){
         return this.each(function(item){
           result = item;
-          throw new BreakException();
+          throw new Breaker();
         });
       } else {
         result = [];
         this.each(function(item){
           result.push(item);
           if(result.length == num){
-            throw new BreakException();
+            throw new Breaker();
           }
         })
       }
     } catch(e) {
-      if(!(e instanceof BreakException)){
+      if(!(e instanceof Breaker)){
         throw e;
       }
     }
     return result;
   };
+
+  // returns the maximal item in a collection as determined by the callback
 
   enumerable.max = function max(callback, context){
     if(typeof callback !== 'function'){
@@ -252,6 +293,8 @@
     return maxObj;
   };
 
+  // returns the maximal item in a collection as determined by the callback
+
   enumerable.min = function min(callback, context){
     if(typeof callback !== 'function'){
       throw new SyntaxError('need a callback argument')
@@ -268,12 +311,16 @@
     return minObj;
   };
 
+  // returns true if none of the items return truthy from the callback
+
   enumerable.none = function none(callback, context){
     context = context || this;
     return this.all(function(item){
       return !callback.call(context, item);
     });
   };
+
+  // returns a boolean of whether a collection has num-number of items that return truthy from the callback
 
   enumerable.hasN = function hasN(callback, num, context){
     context = context || this;
@@ -284,16 +331,18 @@
           num--;
         }
         if(num < 0){
-          throw new BreakException();
+          throw new Breaker();
         }
       })
     } catch (e){
-      if (!(e instanceof BreakException)){
+      if (!(e instanceof Breaker)){
         throw e;
       }
     }
     return num == 0;
   };
+
+  // returns two arrays, one with items which pass the callback, and one which does not
 
   enumerable.partition = function partition(callback, context){
     var pass = [];
@@ -308,11 +357,10 @@
     return [pass, fail];
   };
 
+  // invokes the callback in reverse order
+
   enumerable.reverseEach = function reverseEach(callback, context){
-    var items = [];
-    this.each(function(item){
-      items.push(item);
-    });
+    var items = this.toArray();
     for(var i = items.length - 1; i >= 0; i--){
       callback.call(context, items[i]);
     }

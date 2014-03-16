@@ -18,6 +18,8 @@ describe('enumerable', function(){
   it('should respond to all enumerable functions', function(){
     expect(enumerable).to.respondTo('eachSlice');
     expect(enumerable).to.respondTo('reduce');
+    expect(enumerable).to.respondTo('inject');
+    expect(enumerable).to.respondTo('foldl');
     expect(enumerable).to.respondTo('filter');
     expect(enumerable).to.respondTo('find');
     expect(enumerable).to.respondTo('all');
@@ -39,6 +41,7 @@ describe('enumerable', function(){
     expect(enumerable).to.respondTo('hasN');
     expect(enumerable).to.respondTo('partition');
     expect(enumerable).to.respondTo('reverseEach');
+    expect(enumerable).to.respondTo('sort');
   });
 
   describe('with linked lists', function(){
@@ -136,19 +139,19 @@ describe('enumerable', function(){
 
     });
 
-    it('should count properly when no condition is passed in', function(){
+    it('should count all items when no condition is passed in', function(){
       expect(list.count()).to.equal(4);
       list.add(13);
       expect(list.count()).to.equal(5);
     });
 
-    it('should count properly when a function is supplied', function(){
+    it('should count according to the result of a callback when supplied', function(){
       var count = list.count(function(node){
         return node.value % 2 == 0;
       })
       expect(count).to.equal(2);
-      list.add(14);
 
+      list.add(14);
       count = list.count(function(node){
         return node.value % 2 == 0;
       });
@@ -328,6 +331,16 @@ describe('enumerable', function(){
         valueStr += node.value;
       });
       expect(valueStr).to.equal('6543');
+    });
+
+    it('should be able to return a sorted array by sort described by the callback', function(){
+      list.add(13);
+      list.add(7);
+      list.add(16);
+      var sorted = list.sort(function(node){
+        return node.value;
+      });
+      expect(sorted[sorted.length - 1].value).to.equal()
     });
 
   });
