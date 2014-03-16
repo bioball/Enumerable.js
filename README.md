@@ -12,7 +12,7 @@ Note: This is *not* meant to be a standalone library, but to be used in conjunct
 Quickstart
 ----------
 
-*1. Have a collection of some sort*
+#### 1. Have a collection of some sort
 
 ```` js
 // contrived example
@@ -36,7 +36,17 @@ LinkedList.prototype.add = function(value){
 
 ````
 
-*2. Define what `.each` means*
+#### 2. Extend the object include enumerable
+
+```` js
+enumerable.extend(LinkedList.prototype);
+
+// NOTE: Another way to do this is to use Object.create. Doing so will remove anything that used to be on your `.prototype`. However, this results in a true inheritance pattern.
+
+LinkedList.prototype = Object.create(enumerable);
+````
+
+#### 3. Define what `.each` means
 
 ```` js
 LinkedList.prototype.each = function(callback, context){
@@ -48,14 +58,18 @@ LinkedList.prototype.each = function(callback, context){
 }
 ````
 
-*3. Extend the object include enumerable*
+#### 4. Stand in awe of all the awesome utility functions you suddenly have
 
 ```` js
-enumerable.extend(LinkedList.prototype);
+var list = new LinkedList();
+list.add(5);
+list.add(9);
+list.add(15);
+
+var sum = list.reduce(function(sum, node){ return sum + node.value; }, 0);
+console.log(sum)
+// => 27   ¯\_(ツ)_/¯
 ````
-
-*4. Stand in awe of all the awesome utility functions you suddenly have*
-
 
 Conflict Management
 -------------------
