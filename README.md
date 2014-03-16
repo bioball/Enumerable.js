@@ -41,7 +41,8 @@ LinkedList.prototype.add = function(value){
 ```` js
 enumerable.extend(LinkedList.prototype);
 
-// NOTE: Another way to do this is to use Object.create. Doing so will remove anything that used to be on your `.prototype`. However, this results in a true inheritance pattern.
+// NOTE: Another way to do this is to use Object.create. Doing so will remove anything 
+// that used to be on your `.prototype`. However, this results in a true inheritance pattern.
 
 LinkedList.prototype = Object.create(enumerable);
 ````
@@ -71,11 +72,6 @@ console.log(sum)
 // => 27   ¯\_(ツ)_/¯
 ````
 
-Conflict Management
--------------------
-
-Have another global `enumerable` variable? Assign `enumerable#noConflict` to another variable, and your previous `enumerable` will be reinstated. The other variable created will reference this library.
-
 ---
 
-This is currently a work in progress.
+*This is currently a work in progress. Github issues will be monitored and any pull requests need to have test coverage*
