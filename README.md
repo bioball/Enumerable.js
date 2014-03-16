@@ -1,48 +1,61 @@
 Enumerable.js
 =============
 
-### *utility functions extendable beyond arrays and hash tables*
+### *utility functions for all types of collections*
 
 When you use a JavaScript array or hash table, you have so many ways to get utility functions at your disposal through libraries like Underscore, Zepto, jQuery, or natively in ECMAScript5. Why can't we have these same utility functions just as easily for other data structures that can be iterated over? Say, a linked list, or a tree, or graph?
 
-This library is heavily inspired by Ruby's Enumerable module. It bootstraps off your object's `.each` function, and provides a wealth of useful utility functions.
+This library is heavily inspired by Ruby's Enumerable module. If you have a data structure that holds a colleciton of items, simply define what `.each` means, and extend your object to include all of Enumerable's methods.
+
+Note: This is *not* meant to be a standalone library, but to be used in conjunction with another data type that has a definable `.each` method.
 
 Quickstart
 ----------
 
-For a class that may be iterated over, simply define what `.each` means, then extend your class to enumerable. For example, given a LinkedList, it might look like this
+*1. Have a collection of some sort*
 
 ```` js
-LinkedList.prototype.each = function(cb){
+// contrived example
+var LinkedList = function(){
+  this.head = null;
+  this.tail = null;
+};
+
+LinkedList.prototype.add = function(value){
+  var node = {
+    value: value,
+    next: null
+  };
+  if(!this.head){
+    this.head = this.tail = node;
+  } else {
+    this.tail.next = node;
+    this.tail = node;
+  }
+};
+
+````
+
+*2. Define what `.each` means*
+
+```` js
+LinkedList.prototype.each = function(callback, context){
   var node = this.head;
   while(node){
-    cb(node);
+    callback.call(context, node);
     node = node.next;
   }
 }
 ````
 
-There are two ways to inherit from Enumerable.js. Either use Enumerable#extend, like so
-
-`enumerable.extend(LinkedList.prototype);`
-
-Or use Object.create to inherit from Enumerable. Here is a functional instantiation class pattern for a contrived linked list.
+*3. Extend the object include enumerable*
 
 ```` js
-var makeLinkedList = function(){
-  var linkedList = Object.create(enumerable);
-  linkedList.head = null;
-  linkedList.tail = null;
-  linkedlist.each = function(){
-    var node = this.head;
-    while(node){
-      cb(node);
-      node = node.next;
-    }
-  }
-  return linkedList;
-}
+enumerable.extend(LinkedList.prototype);
 ````
+
+*4. Stand in awe of all the awesome utility functions you suddenly have*
+
 
 Conflict Management
 -------------------
