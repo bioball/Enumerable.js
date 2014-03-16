@@ -39,10 +39,11 @@ LinkedList.prototype.add = function(value){
 #### 2. Extend the object include enumerable
 
 ```` js
+// option 1: use enumerable#extend
 enumerable.extend(LinkedList.prototype);
 
-// NOTE: Another way to do this is to use Object.create. Doing so will remove anything 
-// that used to be on your `.prototype`. However, this results in a true inheritance pattern.
+// option 2: use Object#create. NOTE: Doing so will will completely reassign
+// what LinkedList#prototype is.
 
 LinkedList.prototype = Object.create(enumerable);
 ````
