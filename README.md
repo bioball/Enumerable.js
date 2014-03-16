@@ -3,7 +3,7 @@ Enumerable.js
 
 ### *utility functions for all types of collections*
 
-When you use a JavaScript array or hash table, you have so many ways to get utility functions at your disposal through libraries like Underscore, Zepto, jQuery, or natively in ECMAScript5. Why can't we have these same utility functions just as easily for other data structures that can be iterated over? Say, a linked list, or a tree, or graph?
+When you use a JavaScript array or hash table, you have so many ways to get utility functions at your disposal through libraries like Underscore, Zepto, jQuery, or natively in ECMAScript5. Why can't we have these same utility functions just as easily for other data structures that can be iterated over? Say, a linked list, or a tree, or a graph, or that newest thing that your monkey came up with?
 
 This library is heavily inspired by Ruby's Enumerable module. If you have a data structure that holds a colleciton of items, simply define what `.each` means, and extend your object to include all of Enumerable's methods.
 
