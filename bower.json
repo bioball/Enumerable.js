@@ -1,0 +1,31 @@
+{
+  "name": "enumerable-js",
+  "main": "enumerable.js",
+  "version": "0.0.1",
+  "homepage": "https://github.com/bioball/Enumerable.js",
+  "authors": [
+    "Daniel Chao <daniel.h.chao@gmail.com>"
+  ],
+  "description": "Utility functions for all types of collections",
+  "keywords": [
+    "Enumerable",
+    "Iterative",
+    "Underscore",
+    "Collection",
+    "Utility",
+    "functions",
+    "Helper",
+    "funcitons",
+    "Data",
+    "Structures",
+    "Each"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}

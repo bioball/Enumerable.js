@@ -117,7 +117,7 @@ Installation
 As an NPM module
 `npm install enumerablejs`
 
-As a bower module
+As a bower package
 `bower install enumerablejs`
 
 From Github
@@ -125,4 +125,4 @@ From Github
 
 ---
 
-*This is currently a work in progress. Please send in pull requests! However, please also have test coverage in your pull requests.
+*Want to contribute? Please send in pull requests! However, please also have test coverage in your pull requests.
