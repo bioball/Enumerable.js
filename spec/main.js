@@ -33,6 +33,8 @@ describe('enumerable', function(){
     expect(enumerable).to.respondTo('eachUntilN');
     expect(enumerable).to.respondTo('findAll');
     expect(enumerable).to.respondTo('first');
+    expect(enumerable).to.respondTo('max');
+    expect(enumerable).to.respondTo('min');
   });
 
   describe('with linked lists', function(){
@@ -231,9 +233,55 @@ describe('enumerable', function(){
      
       var first100 = list.first(100);
       expect(first100.length).to.equal(4);
-
     });
 
+    it('should be able to return the max as described by the callback', function(){
+      var maxNum = list.max(function(node){
+        return node.value;
+      });
+      expect(maxNum).to.equal(list.tail);
+      expect(maxNum.value).to.equal(6);
+
+      list.head.value = 'bob';
+      list.head.next.value = 'sandy';
+      list.head.next.next.value = 'lauren';
+      list.head.next.next.next.value = 'billy';
+
+      var maxLength = list.max(function(node){
+        return node.value.length;
+      });
+      expect(maxLength.value).to.equal('lauren');
+      expect(function(){ list.max() }).to.throw(SyntaxError);
+
+      var maxAlphabet = list.max(function(node){
+        return node.value;
+      });
+      expect(maxAlphabet.value).to.equal('sandy');
+    });
+
+    it('should be able to return the min as described by the callback', function(){
+      var minNum = list.min(function(node){
+        return node.value;
+      });
+      expect(minNum).to.equal(list.head);
+      expect(minNum.value).to.equal(3);
+
+      list.head.value = 'bob';
+      list.head.next.value = 'sandy';
+      list.head.next.next.value = 'lauren';
+      list.head.next.next.next.value = 'billy';
+
+      var minLength = list.min(function(node){
+        return node.value.length;
+      });
+      expect(minLength.value).to.equal('bob');
+      expect(function(){ list.min() }).to.throw(SyntaxError);
+
+      var minAlphabet = list.min(function(node){
+        return node.value;
+      });
+      expect(minAlphabet.value).to.equal('billy');
+    });
 
   });
 });

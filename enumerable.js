@@ -3,6 +3,7 @@
   'use strict';
 
   var root = this;
+
   // this is used to "break" out of an each loop
   var BreakException = function(result){
     this.result = result;
@@ -209,7 +210,7 @@
     }
   };
 
-  enumerable.first = function(num){
+  enumerable.first = function first(num){
     var count = 0;
     var result;
     try {
@@ -233,6 +234,38 @@
       }
     }
     return result;
+  };
+
+  enumerable.max = function max(callback, context){
+    if(typeof callback !== 'function'){
+      throw new SyntaxError('need a callback argument')
+    }
+    context = context || this;
+    var maxObj, maxValue, currentValue;
+    this.each(function(currentObj){
+      currentValue = callback.call(context, currentObj);
+      if(typeof maxObj === 'undefined' || currentValue > maxValue){
+        maxObj = currentObj;
+        maxValue = currentValue;
+      }
+    });
+    return maxObj;
+  };
+
+  enumerable.min = function min(callback, context){
+    if(typeof callback !== 'function'){
+      throw new SyntaxError('need a callback argument')
+    }
+    context = context || this;
+    var minObj, minValue, currentValue;
+    this.each(function(currentObj){
+      currentValue = callback.call(context, currentObj);
+      if(typeof minObj === 'undefined' || currentValue < minValue){
+        minObj = currentObj;
+        minValue = currentValue;
+      }
+    });
+    return minObj;
   };
 
   if(typeof exports !== 'undefined') {
