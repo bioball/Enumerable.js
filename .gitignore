@@ -1,6 +1,10 @@
 # Mac OS X hidden files
 .DS_Store
 
+
+# log files
+*.log
+
 # Vim swap files
 .*.sw?
 
