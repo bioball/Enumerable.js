@@ -1,7 +1,7 @@
 {
-  "name": "enumerable.js",
-  "version": "0.0.0",
-  "description": "Utility functions extendable beyond arrays and hash tables",
+  "name": "enumerable",
+  "version": "0.0.1",
+  "description": "Utility functions for all types of collections",
   "main": "enumerable.js",
   "devDependencies": {
     "chai": "~1.9.0"
@@ -19,6 +19,7 @@
     "Underscore"
   ],
   "author": "Daniel Chao",
+  "email": "daniel.h.chao+npm@gmail.com",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/bioball/Enumerable.js/issues"

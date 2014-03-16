@@ -16,7 +16,7 @@
 
   var enumerable = {};
 
-  enumerable.VERSION = '0.0.0';
+  enumerable.VERSION = '0.0.1';
 
   // if enumerable was being used, it may be reinstated by invoking noConflict. However, this will remove the enumerable
   // library unless it is saved to a variable.
