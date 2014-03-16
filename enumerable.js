@@ -124,6 +124,7 @@
     this.each(function(item){
       item = callback.call(context, item);
     });
+    return this;
   };
 
   // returns an array of ths result invoking the callback on each item in the collection
@@ -162,12 +163,13 @@
 
   enumerable.cycle = function cycle(callback, num, context){
     context = context || this;
-    if(typeof num !== 'number'){ throw new SyntaxError('need a number passed in as the second argument'); }
+    if (typeof num !== 'number') { throw new SyntaxError('need a number passed in as the second argument'); }
     num = Math.floor(Math.abs(num));
     while(num){
       this.each.call(context, callback);
       num--;
     }
+    return this;
   };
 
   // returns the first item for which the callback returns falsy
@@ -194,33 +196,35 @@
         self.eachUntilN(function(node){
           collection.push(node);
         }, num, this, index);
-        if(collection.length !== num){ throw new Breaker(); }
+        if (collection.length !== num) { throw new Breaker(); }
         callback.call(context, collection);
         index++;
       });
     } catch(e){
-      if(!(e instanceof Breaker)){
+      if (!(e instanceof Breaker)) {
         throw e;
       }
     }
+    return this;
   };
 
   // slices the collection up into num-sized arrays, and invokes the callback on them
 
   enumerable.eachSlice = function eachSlice(callback, num, context){
-    if(typeof num !== 'number'){ throw new SyntaxError('need a number passed in as a second argument') }
+    if (typeof num !== 'number') { throw new SyntaxError('need a number passed in as a second argument') }
     context = context || this;
     var currentSlice = [];
     this.each(function(item){
       currentSlice.push(item);
-      if(currentSlice.length == num){
+      if (currentSlice.length == num) {
         callback.call(context, currentSlice);
         currentSlice = [];
       }
     });
-    if(currentSlice.length){
+    if (currentSlice.length) {
       callback.call(context, currentSlice);
     }
+    return this;
   }
 
   // iterates the given callback for the first N elements only. If a start index is given, it starts at that element
@@ -229,22 +233,23 @@
     start = start || 0;
     context = context || this;
     var index = -1;
-    if(typeof num !== 'number' || num < 0){ throw new TypeError('need a positive integer number as a second argument') }
+    if (typeof num !== 'number' || num < 0) { throw new TypeError('need a positive integer number as a second argument') }
     try {
       this.each(function(item){
         index++;
-        if(index < start){ return; }
+        if (index < start) { return; }
         callback.call(context, item);
         num--;
-        if(num === 0){
+        if (num === 0) {
           throw new Breaker();
         }
       });
     } catch(e) {
-      if(!(e instanceof Breaker)){
+      if (!(e instanceof Breaker)) {
         throw e;
       }
     }
+    return this;
   };
 
   // returns the first item in the collection. If a numerical argument is given, returns the first num arguments in an array
@@ -253,7 +258,7 @@
     var count = 0;
     var result;
     try {
-      if(typeof num !== 'number'){
+      if (typeof num !== 'number') {
         return this.each(function(item){
           result = item;
           throw new Breaker();
@@ -262,13 +267,13 @@
         result = [];
         this.each(function(item){
           result.push(item);
-          if(result.length == num){
+          if (result.length == num){
             throw new Breaker();
           }
         })
       }
     } catch(e) {
-      if(!(e instanceof Breaker)){
+      if (!(e instanceof Breaker)) {
         throw e;
       }
     }
@@ -278,14 +283,14 @@
   // returns the maximal item in a collection as determined by the callback
 
   enumerable.max = function max(callback, context){
-    if(typeof callback !== 'function'){
+    if (typeof callback !== 'function') {
       throw new SyntaxError('need a callback argument')
     }
     context = context || this;
     var maxObj, maxValue, currentValue;
     this.each(function(currentObj){
       currentValue = callback.call(context, currentObj);
-      if(typeof maxObj === 'undefined' || currentValue > maxValue){
+      if (typeof maxObj === 'undefined' || currentValue > maxValue) {
         maxObj = currentObj;
         maxValue = currentValue;
       }
@@ -303,7 +308,7 @@
     var minObj, minValue, currentValue;
     this.each(function(currentObj){
       currentValue = callback.call(context, currentObj);
-      if(typeof minObj === 'undefined' || currentValue < minValue){
+      if (typeof minObj === 'undefined' || currentValue < minValue) {
         minObj = currentObj;
         minValue = currentValue;
       }
@@ -335,7 +340,7 @@
         }
       })
     } catch (e){
-      if (!(e instanceof Breaker)){
+      if (!(e instanceof Breaker)) {
         throw e;
       }
     }
@@ -364,10 +369,27 @@
     for(var i = items.length - 1; i >= 0; i--){
       callback.call(context, items[i]);
     }
+    return this;
   };
 
-  if(typeof exports !== 'undefined') {
-    if(typeof module !== 'undefined' && module.exports) {
+  // returns an array of items sorted in ascending order by the callback
+
+  enumerable.sort = function(callback, context){
+    return this.toArray().sort(function(node1, node2){
+      var result1 = callback.call(context, node1);
+      var result2 = callback.call(context, node2);
+      if (result1 > result2) {
+        return 1;
+      } else if (result1 < result2) {
+        return -1;
+      } else {
+        return 0;
+      }
+    });
+  };
+
+  if (typeof exports !== 'undefined') {
+    if (typeof module !== 'undefined' && module.exports) {
       exports = module.exports = enumerable;
     }
     exports.enumerable = enumerable;

@@ -7,7 +7,7 @@
     "chai": "~1.9.0"
   },
   "scripts": {
-    "test": "mocha -R spec spec/main.js"
+    "test": "mocha -R spec spec/spec.js"
   },
   "repository": {
     "type": "git",
