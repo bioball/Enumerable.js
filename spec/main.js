@@ -35,6 +35,10 @@ describe('enumerable', function(){
     expect(enumerable).to.respondTo('first');
     expect(enumerable).to.respondTo('max');
     expect(enumerable).to.respondTo('min');
+    expect(enumerable).to.respondTo('none');
+    expect(enumerable).to.respondTo('hasN');
+    expect(enumerable).to.respondTo('partition');
+    expect(enumerable).to.respondTo('reverseEach');
   });
 
   describe('with linked lists', function(){
@@ -281,6 +285,49 @@ describe('enumerable', function(){
         return node.value;
       });
       expect(minAlphabet.value).to.equal('billy');
+    });
+
+    it('should return the correct boolean for none', function(){
+      var lessThanZero = list.none(function(node){
+        return node.value < 0;
+      });
+      expect(lessThanZero).to.be.true;
+    });
+
+    it('should return the correct boolean for the number of items for which the callback is truthy', function(){
+      var hasTwo = list.hasN(function(node){
+        return node.value % 2 === 0;
+      }, 2);
+      expect(hasTwo).to.be.true;
+    });
+
+    it('should default to 1 for hasN if no number is passed in', function(){
+      var hasOneEven = list.hasN(function(node){
+        return node.value % 2 === 0;
+      });
+      expect(hasOneEven).to.be.false;
+
+      var hasOneSix = list.hasN(function(node){
+        return node.value === 6;
+      });
+      expect(hasOneSix).to.be.true;
+    });
+
+    it('should partition the items into two arrays based on the truthiness of the callback', function(){
+      var evenOdds = list.partition(function(node){
+        return node.value % 2 === 0;
+      });
+      expect(evenOdds.length).to.equal(2);
+      expect(evenOdds[0][0].value).to.equal(4);
+      expect(evenOdds[1][0].value).to.equal(3);
+    });
+
+    it('should be able to call everything in reverse', function(){
+      var valueStr = '';
+      list.reverseEach(function(node){
+        valueStr += node.value;
+      });
+      expect(valueStr).to.equal('6543');
     });
 
   });

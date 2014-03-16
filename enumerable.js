@@ -268,6 +268,56 @@
     return minObj;
   };
 
+  enumerable.none = function none(callback, context){
+    context = context || this;
+    return this.all(function(item){
+      return !callback.call(context, item);
+    });
+  };
+
+  enumerable.hasN = function hasN(callback, num, context){
+    context = context || this;
+    num = num || 1;
+    try {
+      this.each(function(item){
+        if(callback.call(context, item)){
+          num--;
+        }
+        if(num < 0){
+          throw new BreakException();
+        }
+      })
+    } catch (e){
+      if (!(e instanceof BreakException)){
+        throw e;
+      }
+    }
+    return num == 0;
+  };
+
+  enumerable.partition = function partition(callback, context){
+    var pass = [];
+    var fail = [];
+    this.each(function(item){
+      if(callback.call(context, item)){
+        pass.push(item);
+      } else {
+        fail.push(item);
+      }
+    })
+    return [pass, fail];
+  };
+
+  enumerable.reverseEach = function reverseEach(callback, context){
+    var items = [];
+    this.each(function(item){
+      items.push(item);
+    });
+    for(var i = items.length - 1; i >= 0; i--){
+      callback.call(context, items[i]);
+    }
+  };
+
   if(typeof exports !== 'undefined') {
     if(typeof module !== 'undefined' && module.exports) {
       exports = module.exports = enumerable;
