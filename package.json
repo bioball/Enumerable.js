@@ -1,5 +1,5 @@
 {
-  "name": "enumerable",
+  "name": "enumerable.js",
   "version": "0.0.1",
   "description": "Utility functions for all types of collections",
   "main": "enumerable.js",
@@ -16,7 +16,12 @@
   "keywords": [
     "Enumerable",
     "Iterative",
-    "Underscore"
+    "Underscore",
+    "Collection",
+    "Utility functions",
+    "Helper functions",
+    "Data structures",
+    "Each"
   ],
   "author": "Daniel Chao",
   "email": "daniel.h.chao+npm@gmail.com",
