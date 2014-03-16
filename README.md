@@ -43,8 +43,8 @@ LinkedList.prototype.add = function(value){
 enumerable.extend(LinkedList.prototype);
 
 // option 2: use Object#create. NOTE: In this case, doing so will will completely 
-// reassign what LinkedList.prototype is. In our case, we would need to define 
-// LinkedList#add after this.
+// reassign what LinkedList.prototype is. Here, we would need to define 
+// LinkedList#add again after this.
 
 LinkedList.prototype = Object.create(enumerable);
 ````
