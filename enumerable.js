@@ -6,9 +6,7 @@
 
   // this is used to "break" out of an each loop
 
-  var Breaker = function(result){
-    this.result = result;
-  };
+  var breaker = {};
 
   // store the old enumerable
 
@@ -58,11 +56,11 @@
       this.each(function(item){
         if(callback.call(context, item)){
           result = item;
-          throw new Breaker();
+          throw breaker;
         }
       });
     } catch(e) {
-      if(!(e instanceof Breaker)){
+      if(e !== breaker){
         throw e;
       }
     }
@@ -94,11 +92,11 @@
     try {
       this.each(function(item){
         if(!callback.call(context, item)){
-          throw new Breaker();
+          throw breaker;
         }
       });
     } catch(e) {
-      if(e instanceof Breaker){
+      if(e === breaker){
         return false;
       } else {
         throw e;
@@ -196,12 +194,12 @@
         self.eachUntilN(function(node){
           collection.push(node);
         }, num, this, index);
-        if (collection.length !== num) { throw new Breaker(); }
+        if (collection.length !== num) { throw breaker; }
         callback.call(context, collection);
         index++;
       });
     } catch(e){
-      if (!(e instanceof Breaker)) {
+      if (e !== breaker) {
         throw e;
       }
     }
@@ -241,11 +239,11 @@
         callback.call(context, item);
         num--;
         if (num === 0) {
-          throw new Breaker();
+          throw breaker;
         }
       });
     } catch(e) {
-      if (!(e instanceof Breaker)) {
+      if (e !== breaker) {
         throw e;
       }
     }
@@ -261,19 +259,19 @@
       if (typeof num !== 'number') {
         return this.each(function(item){
           result = item;
-          throw new Breaker();
+          throw breaker;
         });
       } else {
         result = [];
         this.each(function(item){
           result.push(item);
           if (result.length == num){
-            throw new Breaker();
+            throw breaker;
           }
         })
       }
     } catch(e) {
-      if (!(e instanceof Breaker)) {
+      if (e !== breaker) {
         throw e;
       }
     }
@@ -336,11 +334,11 @@
           num--;
         }
         if(num < 0){
-          throw new Breaker();
+          throw breaker;
         }
       })
     } catch (e){
-      if (!(e instanceof Breaker)) {
+      if (e !== breaker) {
         throw e;
       }
     }

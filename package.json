@@ -1,5 +1,5 @@
 {
-  "name": "enumerable.js",
+  "name": "enumerable-js",
   "version": "0.0.1",
   "description": "Utility functions for all types of collections",
   "main": "enumerable.js",
