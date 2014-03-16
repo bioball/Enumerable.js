@@ -1,6 +1,6 @@
-'use strict';
-
 (function(){
+
+  'use strict';
 
   var root = this;
   // this is used to "break" out of an each loop
@@ -18,43 +18,47 @@
     return enumerable;
   };
 
-  enumerable.eachSlice = function eachSlice(callback, num){
-    if(!num){ throw new SyntaxError('need a slice size passed in as a second argument') }
+  enumerable.eachSlice = function eachSlice(callback, num, context){
+    if(typeof num !== 'number'){ throw new SyntaxError('need a number passed in as a second argument') }
+    context = context || this;
     var currentSlice = [];
     this.each(function(item){
       currentSlice.push(item);
       if(currentSlice.length == num){
-        callback(currentSlice);
+        callback.call(context, currentSlice);
         currentSlice = [];
       }
     });
     if(currentSlice.length){
-      callback(currentSlice);
+      callback.call(context, currentSlice);
     }
   }
 
-  enumerable.reduce = enumerable.inject = function reduce(callback, seed){
+  enumerable.reduce = enumerable.inject = function reduce(callback, seed, context){
+    context = context || this;
     this.each(function(item){
-      seed = callback(seed, item);
+      seed = callback.call(context, seed, item);
     });
     return seed;
   };
 
-  enumerable.filter = enumerable.select = function filter(callback){
+  enumerable.filter = enumerable.select = function filter(callback, context){
+    context = context || this;
     var result = [];
     this.each(function(item){
-      if(callback(item)){
+      if(callback.call(context, item)){
         result.push(item);
       }
     });
     return result;
   };
 
-  enumerable.find = function find(callback){
-    var result;
+  enumerable.find = function find(callback, context){
+    context = context || this;
+    var result = null;
     try {
       this.each(function(item){
-        if(callback(item)){
+        if(callback.call(context, item)){
           throw new BreakException(item);
         }
       });
@@ -73,7 +77,8 @@
   // if a function is supplied as the condition, counts the number of items for which the condition passes
   // otherwise, counts the number of items that strictly equal the passed in object
 
-  enumerable.count = function count(condition){
+  enumerable.count = function count(condition, context){
+    context = context || this;
     var result = 0;
     var callback = typeof condition === 'function' 
     ? condition 
@@ -81,15 +86,16 @@
       return item === condition;
     };
     this.each(function(item){
-      condition ? callback(item) && result++ : result++;
+      condition ? callback.call(context, item) && result++ : result++;
     });
     return result;
   };
 
-  enumerable.all = function all(callback){
+  enumerable.all = function all(callback, context){
+    context = context || this;
     try {
       this.each(function(item){
-        if(!callback(item)){
+        if(!callback.call(context, item)){
           throw new BreakException();
         }
       });
@@ -103,19 +109,20 @@
     return true;
   };
 
-  enumerable.any = function any(callback){
+  enumerable.any = function any(callback, context){
+    context = context || this;
     return !this.all(function(item){
-      return !callback(item);
+      return !callback.call(context, item);
     });
   };
 
   // IMPORTANT TO NOTE: JavaScript primitives are immutable, and this function is designed
   // to mutate each object, so it will not work if the `each` item is a primitive.
-  // if using primitives, you should use ECMAScript5's native Array.prototype.map
 
-  enumerable.mapInPlace = function mapInPlace(callback, property){
+  enumerable.mapInPlace = function mapInPlace(callback, property, context){
+    context = context || this;
     this.each(function(item){
-      item = callback(item);
+      item = callback.call(context, item);
     });
   };
 
@@ -137,6 +144,53 @@
       result.push(item);
     });
     return result;
+  };
+
+  enumerable.cycle = function cycle(callback, num, context){
+    context = context || this;
+    if(typeof num !== 'number'){ throw new SyntaxError('need a number passed in as the second argument'); }
+    var count = 0;
+    while(count < num){
+      this.each.call(context, callback);
+      count++;
+    }
+  };
+
+  enumerable.detect = function detect(callback, context){
+    context = context || this;
+    return this.find(function(node){
+      return !callback.call(context, node);
+    });
+  };
+
+  enumerable.eachCons = function eachCons(callback, num, context){
+    context = context || this;
+    
+  };
+
+  // iterates the given callback for the first N elements only. If a start index is given, it starts at that element
+
+  enumerable.eachUntilN = function eachUntilN(callback, num, context, start){
+    start = start || 0;
+    context = context || this;
+    var count = 0;
+    var index = 0;
+    try {
+      this.each(function(item){
+        if(index >= start){
+          callback.call(context, item);
+          count++;
+        }
+        index++;
+        if(count == num){
+          throw new BreakException();
+        }
+      });
+    } catch(e) {
+      if(!(e instanceof BreakException)){
+        throw e;
+      }
+    }
   };
 
   if(typeof exports !== 'undefined') {
