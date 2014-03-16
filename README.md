@@ -74,6 +74,43 @@ console.log(sum);
 // => 27   ¯\_(ツ)_/¯
 ````
 
+Supported functions
+-------------------
+
+Returns a unit of the collection
+* first
+* max
+* min
+* detect
+* find
+
+Returns as specified
+* reduce / inject / foldl
+
+Returns an array
+* filter / select / findAll
+* mapToArray
+* toArray
+* sort
+* partition
+
+Returns `this`
+* mapInPlace
+* eachCons
+* eachUntilN
+* eachSlice
+* reverseEach
+* cycle
+
+Returns an integer
+* count
+
+Returns a boolean
+* all
+* any
+* none
+* hasN
+
 ---
 
 *This is currently a work in progress. Please send in pull requests! However, please also have test coverage in your pull requests.
