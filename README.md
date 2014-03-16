@@ -3,7 +3,7 @@ Enumerable.js
 
 ### *utility functions for your iteratable classes*
 
-When you use a JavaScript array or hash table, you have so many ways to get utility functions at your disposal through libraries like Underscore, Zepto, jQuery, or natively in ECMAScript5. Why can't we have these same utility functions just as easily for other data structures that can be enumerated over?
+When you use a JavaScript array or hash table, you have so many ways to get utility functions at your disposal through libraries like Underscore, Zepto, jQuery, or natively in ECMAScript5. Why can't we have these same utility functions just as easily for other data structures that can be iterated over? Say, a linked list, or a tree, or graph?
 
 This is a port of Ruby's Enumerable module into JavaScript. Simply define what `.each` means for your data structure, and you gain access to a wealth of helper functions, including `reduce`, `filter`, `eachSlice`, etc.
 

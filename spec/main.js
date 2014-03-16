@@ -31,6 +31,8 @@ describe('enumerable', function(){
     expect(enumerable).to.respondTo('detect');
     expect(enumerable).to.respondTo('eachCons');
     expect(enumerable).to.respondTo('eachUntilN');
+    expect(enumerable).to.respondTo('findAll');
+    expect(enumerable).to.respondTo('first');
   });
 
   describe('with linked lists', function(){
@@ -199,8 +201,7 @@ describe('enumerable', function(){
       expect(sliceThrees.length).to.equal(2);
       expect(sliceThrees[0].length).to.equal(3);
       expect(sliceThrees[sliceThrees.length - 1].length).to.equal(3);
-      expect(sliceThrees[0][0] instanceof LinkedListNode).to.be.true;
-      eexpect(sliceThrees[0][0].value).to.equal(3);
+      expect(sliceThrees[0][0].value).to.equal(3);
     });
 
     it('should execute a callback for n number of elements', function(){
@@ -217,6 +218,20 @@ describe('enumerable', function(){
       }, 3, null, 1);
       expect(items2.length).to.equal(3);
       expect(items2[0]).to.equal(list.head.next);
+    });
+
+    it('should be able to return the first N item', function(){
+      var first = list.first();
+      expect(first).to.equal(list.head);
+
+      var first2 = list.first(2);
+      expect(Array.isArray(first2)).to.be.true;
+      expect(first2[0]).to.equal(list.head);
+      expect(first2[1]).to.equal(list.head.next);
+     
+      var first100 = list.first(100);
+      expect(first100.length).to.equal(4);
+
     });
 
 

@@ -42,7 +42,7 @@
     return seed;
   };
 
-  enumerable.filter = enumerable.select = function filter(callback, context){
+  enumerable.filter = enumerable.select = enumerable.findAll = function filter(callback, context){
     context = context || this;
     var result = [];
     this.each(function(item){
@@ -165,7 +165,23 @@
 
   enumerable.eachCons = function eachCons(callback, num, context){
     context = context || this;
-    
+    var index = 0;
+    var self = this;
+    try {
+      this.each(function(){
+        var collection = [];
+        self.eachUntilN(function(node){
+          collection.push(node);
+        }, num, this, index);
+        if(collection.length !== num){ throw new BreakException(); }
+        callback.call(context, collection);
+        index++;
+      });
+    } catch(e){
+      if(!(e instanceof BreakException)){
+        throw e;
+      }
+    }
   };
 
   // iterates the given callback for the first N elements only. If a start index is given, it starts at that element
@@ -191,6 +207,32 @@
         throw e;
       }
     }
+  };
+
+  enumerable.first = function(num){
+    var count = 0;
+    var result;
+    try {
+      if(typeof num !== 'number'){
+        return this.each(function(item){
+          result = item;
+          throw new BreakException();
+        });
+      } else {
+        result = [];
+        this.each(function(item){
+          result.push(item);
+          if(result.length == num){
+            throw new BreakException();
+          }
+        })
+      }
+    } catch(e) {
+      if(!(e instanceof BreakException)){
+        throw e;
+      }
+    }
+    return result;
   };
 
   if(typeof exports !== 'undefined') {
