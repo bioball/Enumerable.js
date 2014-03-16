@@ -1,5 +1,5 @@
 Enumerable.js
--------------
+=============
 
 ### *utility functions for your iteratable classes*
 
@@ -8,7 +8,7 @@ When you use a JavaScript array or hash table, you have so many ways to get util
 This library is heavily inspired by Ruby's Enumerable module. It bootstraps off your object's `.each` function, and provides a wealth of useful utility functions.
 
 Quickstart
-==========
+----------
 
 For a class that may be iterated over, simply define what `.each` means, then extend your class to enumerable. For example, given a LinkedList, it might look like this
 
@@ -45,7 +45,7 @@ var makeLinkedList = function(){
 ````
 
 Conflict Management
-===================
+-------------------
 
 Have another global `enumerable` variable? Assign `enumerable#noConflict` to another variable, and your previous `enumerable` will be reinstated. The other variable created will reference this library.
 
