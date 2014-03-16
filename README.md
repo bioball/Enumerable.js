@@ -115,10 +115,10 @@ Installation
 ------------
 
 As an NPM module
-`npm install enumerablejs`
+`npm install enumerable-js`
 
 As a bower package
-`bower install enumerablejs`
+`bower install enumerable-js`
 
 From Github
 `git clone git@github.com:bioball/Enumerable.js.git`
