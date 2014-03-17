@@ -27,10 +27,14 @@
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-1">&#182;</a>
               </div>
-              
+              <pre><code>Enumerable.js version <span class="hljs-number">0.0</span><span class="hljs-number">.1</span>
+(c) <span class="hljs-number">2014</span> Daniel Chao
+May be distributed under the MIT license.
+</code></pre>
             </div>
             
-            <div class="content"><div class='highlight'><pre>(<span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span>{</span>
+            <div class="content"><div class='highlight'><pre>
+(<span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span>{</span>
 <span class="hljs-pi">
   'use strict'</span>;
 
@@ -45,7 +49,7 @@
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-2">&#182;</a>
               </div>
-              <p>This is used to “break” out of an each loop</p>
+              <p>This is used to “break” out of an each loop.</p>
 
             </div>
             
@@ -66,7 +70,9 @@
             
             <div class="content"><div class='highlight'><pre>  <span class="hljs-keyword">var</span> oldEnumerable = root.enumerable;
 
-  <span class="hljs-keyword">var</span> enumerable = {};</pre></div></div>
+  <span class="hljs-keyword">var</span> enumerable = {};
+
+  enumerable.VERSION = <span class="hljs-string">'0.0.1'</span>;</pre></div></div>
             
         </li>
         
@@ -76,21 +82,6 @@
               
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-4">&#182;</a>
-              </div>
-              <p>Version number <strong>0.0.1</strong></p>
-
-            </div>
-            
-            <div class="content"><div class='highlight'><pre>  enumerable.VERSION = <span class="hljs-string">'0.0.1'</span>;</pre></div></div>
-            
-        </li>
-        
-        
-        <li id="section-5">
-            <div class="annotation">
-              
-              <div class="pilwrap ">
-                <a class="pilcrow" href="#section-5">&#182;</a>
               </div>
               <p>If enumerable was being used, it may be reinstated by invoking <code>noConflict</code>. However, this will remove the enumerable library unless it is saved to a variable.</p>
 
@@ -104,11 +95,11 @@
         </li>
         
         
-        <li id="section-6">
+        <li id="section-5">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-6">&#182;</a>
+                <a class="pilcrow" href="#section-5">&#182;</a>
               </div>
               <p>Returns the result of combining all items in the collection into one, via the seed object.</p>
 
@@ -125,11 +116,11 @@
         </li>
         
         
-        <li id="section-7">
+        <li id="section-6">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-7">&#182;</a>
+                <a class="pilcrow" href="#section-6">&#182;</a>
               </div>
               <p>Returns an array of all items for which the callback returns truthy.</p>
 
@@ -149,11 +140,11 @@
         </li>
         
         
-        <li id="section-8">
+        <li id="section-7">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-8">&#182;</a>
+                <a class="pilcrow" href="#section-7">&#182;</a>
               </div>
               <p>Returns the first item for which the callback returns truthy.</p>
 
@@ -180,11 +171,11 @@
         </li>
         
         
-        <li id="section-9">
+        <li id="section-8">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-9">&#182;</a>
+                <a class="pilcrow" href="#section-8">&#182;</a>
               </div>
               <p>If no condition is supplied, returns the number of items total.
 If a function is supplied as the condition, counts the number of items for which the condition passes.
@@ -209,11 +200,11 @@ Otherwise, counts the number of items that strictly equal the passed in object.<
         </li>
         
         
-        <li id="section-10">
+        <li id="section-9">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-10">&#182;</a>
+                <a class="pilcrow" href="#section-9">&#182;</a>
               </div>
               <p>Returns true if the callback on every item is truthy.</p>
 
@@ -240,11 +231,11 @@ Otherwise, counts the number of items that strictly equal the passed in object.<
         </li>
         
         
-        <li id="section-11">
+        <li id="section-10">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-11">&#182;</a>
+                <a class="pilcrow" href="#section-10">&#182;</a>
               </div>
               <p>Returns true if the callback on any item is truthy.</p>
 
@@ -260,11 +251,11 @@ Otherwise, counts the number of items that strictly equal the passed in object.<
         </li>
         
         
-        <li id="section-12">
+        <li id="section-11">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-12">&#182;</a>
+                <a class="pilcrow" href="#section-11">&#182;</a>
               </div>
               <p>Mutates each item in the collection according to the return value of the callback.</p>
 <p><strong>Important to note:</strong> JavaScript primitives are immutable, and this function is designed to mutate each object, so it will not work if the <code>each</code> item is a primitive.</p>
@@ -282,11 +273,11 @@ Otherwise, counts the number of items that strictly equal the passed in object.<
         </li>
         
         
-        <li id="section-13">
+        <li id="section-12">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-13">&#182;</a>
+                <a class="pilcrow" href="#section-12">&#182;</a>
               </div>
               <p>Returns an array of ths result invoking the callback on each item in the collection.</p>
 
@@ -304,11 +295,11 @@ Otherwise, counts the number of items that strictly equal the passed in object.<
         </li>
         
         
-        <li id="section-14">
+        <li id="section-13">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-14">&#182;</a>
+                <a class="pilcrow" href="#section-13">&#182;</a>
               </div>
               <p>If two objects are passed in, it will extend properties of the first object to the second object. Otherwise, if just one is passed in, it will extend enumerable to that object.</p>
 
@@ -327,11 +318,11 @@ Otherwise, counts the number of items that strictly equal the passed in object.<
         </li>
         
         
-        <li id="section-15">
+        <li id="section-14">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-15">&#182;</a>
+                <a class="pilcrow" href="#section-14">&#182;</a>
               </div>
               <p>Returns all the items in the collection in an array format.</p>
 
@@ -346,11 +337,11 @@ Otherwise, counts the number of items that strictly equal the passed in object.<
         </li>
         
         
-        <li id="section-16">
+        <li id="section-15">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-16">&#182;</a>
+                <a class="pilcrow" href="#section-15">&#182;</a>
               </div>
               <p>Executes the callback on every item in the collection num amount of times.</p>
 
@@ -370,11 +361,11 @@ Otherwise, counts the number of items that strictly equal the passed in object.<
         </li>
         
         
-        <li id="section-17">
+        <li id="section-16">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-17">&#182;</a>
+                <a class="pilcrow" href="#section-16">&#182;</a>
               </div>
               <p>Returns the first item for which the callback returns falsy.</p>
 
@@ -390,11 +381,11 @@ Otherwise, counts the number of items that strictly equal the passed in object.<
         </li>
         
         
-        <li id="section-18">
+        <li id="section-17">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-18">&#182;</a>
+                <a class="pilcrow" href="#section-17">&#182;</a>
               </div>
               <p>Invokes the callback on num-consecutive items in an array format.</p>
 
@@ -425,11 +416,11 @@ Otherwise, counts the number of items that strictly equal the passed in object.<
         </li>
         
         
-        <li id="section-19">
+        <li id="section-18">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-19">&#182;</a>
+                <a class="pilcrow" href="#section-18">&#182;</a>
               </div>
               <p>Slices the collection up into num-sized arrays, and invokes the callback on them.</p>
 
@@ -455,11 +446,11 @@ Otherwise, counts the number of items that strictly equal the passed in object.<
         </li>
         
         
-        <li id="section-20">
+        <li id="section-19">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-20">&#182;</a>
+                <a class="pilcrow" href="#section-19">&#182;</a>
               </div>
               <p>Iterates the given callback for the first N elements only. If a start index is given, it starts at that element.</p>
 
@@ -491,11 +482,11 @@ Otherwise, counts the number of items that strictly equal the passed in object.<
         </li>
         
         
-        <li id="section-21">
+        <li id="section-20">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-21">&#182;</a>
+                <a class="pilcrow" href="#section-20">&#182;</a>
               </div>
               <p>Returns the first item in the collection. If a numerical argument is given, returns the first num arguments in an array.</p>
 
@@ -530,11 +521,11 @@ Otherwise, counts the number of items that strictly equal the passed in object.<
         </li>
         
         
-        <li id="section-22">
+        <li id="section-21">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-22">&#182;</a>
+                <a class="pilcrow" href="#section-21">&#182;</a>
               </div>
               <p>Returns the maximal item in a collection as determined by the callback.</p>
 
@@ -559,11 +550,11 @@ Otherwise, counts the number of items that strictly equal the passed in object.<
         </li>
         
         
-        <li id="section-23">
+        <li id="section-22">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-23">&#182;</a>
+                <a class="pilcrow" href="#section-22">&#182;</a>
               </div>
               <p>Returns the maximal item in a collection as determined by the callback.</p>
 
@@ -588,11 +579,11 @@ Otherwise, counts the number of items that strictly equal the passed in object.<
         </li>
         
         
-        <li id="section-24">
+        <li id="section-23">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-24">&#182;</a>
+                <a class="pilcrow" href="#section-23">&#182;</a>
               </div>
               <p>Returns true if none of the items return truthy from the callback.</p>
 
@@ -608,11 +599,11 @@ Otherwise, counts the number of items that strictly equal the passed in object.<
         </li>
         
         
-        <li id="section-25">
+        <li id="section-24">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-25">&#182;</a>
+                <a class="pilcrow" href="#section-24">&#182;</a>
               </div>
               <p>Returns a boolean of whether a collection has num-number of items that return truthy from the callback.</p>
 
@@ -641,11 +632,11 @@ Otherwise, counts the number of items that strictly equal the passed in object.<
         </li>
         
         
-        <li id="section-26">
+        <li id="section-25">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-26">&#182;</a>
+                <a class="pilcrow" href="#section-25">&#182;</a>
               </div>
               <p>Returns two arrays, one with items which pass the callback, and one which does not.</p>
 
@@ -667,11 +658,11 @@ Otherwise, counts the number of items that strictly equal the passed in object.<
         </li>
         
         
-        <li id="section-27">
+        <li id="section-26">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-27">&#182;</a>
+                <a class="pilcrow" href="#section-26">&#182;</a>
               </div>
               <p>Invokes the callback in reverse order.</p>
 
@@ -688,11 +679,11 @@ Otherwise, counts the number of items that strictly equal the passed in object.<
         </li>
         
         
-        <li id="section-28">
+        <li id="section-27">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-28">&#182;</a>
+                <a class="pilcrow" href="#section-27">&#182;</a>
               </div>
               <p>Returns an array of items sorted in ascending order by the callback.</p>
 
@@ -715,11 +706,11 @@ Otherwise, counts the number of items that strictly equal the passed in object.<
         </li>
         
         
-        <li id="section-29">
+        <li id="section-28">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-29">&#182;</a>
+                <a class="pilcrow" href="#section-28">&#182;</a>
               </div>
               <p>Assign enumerable to <code>exports</code> and <code>module.exports</code> in the server, and <code>window</code> in the browser.</p>
 

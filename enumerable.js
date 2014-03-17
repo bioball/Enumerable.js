@@ -1,10 +1,14 @@
+//     Enumerable.js version 0.0.1
+//     (c) 2014 Daniel Chao
+//     May be distributed under the MIT license.
+
 (function(){
 
   'use strict';
 
   var root = this;
 
-  // This is used to "break" out of an each loop
+  // This is used to "break" out of an each loop.
   var breaker = {};
 
   // Store the old enumerable object.
@@ -12,7 +16,6 @@
 
   var enumerable = {};
 
-  // Version number **0.0.1**
   enumerable.VERSION = '0.0.1';
 
   // If enumerable was being used, it may be reinstated by invoking `noConflict`. However, this will remove the enumerable library unless it is saved to a variable.
