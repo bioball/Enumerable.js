@@ -14,26 +14,12 @@
   // Store the old enumerable object.
   var oldEnumerable = root.enumerable;
 
+  // Initialize enumerable and add version.
   var enumerable = {};
-
+  
   enumerable.VERSION = '0.0.1';
 
-  // If enumerable was being used, it may be reinstated by invoking `noConflict`. However, this will remove the enumerable library unless it is saved to a variable.
-  enumerable.noConflict = function noConflict(){
-    root.enumerable = oldEnumerable;
-    return enumerable;
-  };
-
-  // If two objects are passed in, it will extend properties of the first object to the second object. Otherwise, if just one is passed in, it will extend enumerable to that object.
-  enumerable.extend = function extend(obj1, obj2){
-    if(!obj2){
-      this.extend(this, obj1);
-    } else {
-      for(var key in obj1){
-        obj2[key] = obj1[key];
-      }
-    }
-  };
+  // ---
 
   // ### Returns as specified
 
@@ -364,6 +350,25 @@
       condition ? callback.call(context, item) && result++ : result++;
     });
     return result;
+  };
+
+  // ---
+
+  // If enumerable was being used, it may be reinstated by invoking `noConflict`. However, this will remove the enumerable library unless it is saved to a variable.
+  enumerable.noConflict = function noConflict(){
+    root.enumerable = oldEnumerable;
+    return enumerable;
+  };
+
+  // If two objects are passed in, it will extend properties of the first object to the second object. Otherwise, if just one is passed in, it will extend enumerable to that object.
+  enumerable.extend = function extend(obj1, obj2){
+    if(!obj2){
+      this.extend(this, obj1);
+    } else {
+      for(var key in obj1){
+        obj2[key] = obj1[key];
+      }
+    }
   };
 
   // Assign enumerable to `exports` and `module.exports` in the server, and `window` in the browser.
