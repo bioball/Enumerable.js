@@ -77,15 +77,10 @@ console.log(sum);
 Supported functions
 -------------------
 
-**Returns a unit of the collection**
-* first
-* max
-* min
-* detect
-* find
 
 **Returns as specified**
 * reduce / inject / foldl
+* first
 
 **Returns an array**
 * filter / select / findAll
@@ -94,7 +89,7 @@ Supported functions
 * sort
 * partition
 
-**Returns `this`**
+**Returns the collection**
 * mapInPlace
 * eachCons
 * eachUntilN
@@ -102,14 +97,20 @@ Supported functions
 * reverseEach
 * cycle
 
-**Returns an integer**
-* count
+**Returns an item in the collection**
+* max
+* min
+* detect
+* find
 
 **Returns a boolean**
 * all
 * any
 * none
 * hasN
+
+**Returns an integer**
+* count
 
 Installation
 ------------

@@ -36,12 +36,12 @@ describe('enumerable', function(){
     expect(enumerable).to.respondTo('eachCons');
     expect(enumerable).to.respondTo('eachUntilN');
     expect(enumerable).to.respondTo('eachSlice');
+    expect(enumerable).to.respondTo('reverseEach');
     expect(enumerable).to.respondTo('first');
     expect(enumerable).to.respondTo('max');
     expect(enumerable).to.respondTo('min');
     expect(enumerable).to.respondTo('hasN');
     expect(enumerable).to.respondTo('partition');
-    expect(enumerable).to.respondTo('reverseEach');
     expect(enumerable).to.respondTo('sort');
   });
 
@@ -259,7 +259,6 @@ describe('enumerable', function(){
         return node.value.length;
       });
       expect(maxLength.value).to.equal('lauren');
-      expect(function(){ list.max() }).to.throw(SyntaxError);
 
       var maxAlphabet = list.max(function(node){
         return node.value;
@@ -283,7 +282,6 @@ describe('enumerable', function(){
         return node.value.length;
       });
       expect(minLength.value).to.equal('bob');
-      expect(function(){ list.min() }).to.throw(SyntaxError);
 
       var minAlphabet = list.min(function(node){
         return node.value;

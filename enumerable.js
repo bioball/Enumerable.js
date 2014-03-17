@@ -133,6 +133,105 @@
     return [pass, fail];
   };
 
+  // ### Returns the collection
+
+  // Mutates each item in the collection according to the return value of the callback.
+  // 
+  // **Important to note:** JavaScript primitives are immutable, and this function is designed to mutate each object, so it will not work if the `each` item is a primitive.
+  enumerable.mapInPlace = function mapInPlace(callback, context){
+    context = context || this;
+    this.each(function(item){
+      item = callback.call(context, item);
+    });
+    return this;
+  };
+
+  // Invokes the callback on num-consecutive items in an array format.
+  enumerable.eachCons = function eachCons(callback, num, context){
+    context = context || this;
+    var index = 0;
+    var self = this;
+    try {
+      this.each(function(){
+        var collection = [];
+        self.eachUntilN(function(node){
+          collection.push(node);
+        }, num, this, index);
+        if (collection.length !== num) { throw breaker; }
+        callback.call(context, collection);
+        index++;
+      });
+    } catch(e){
+      if (e !== breaker) {
+        throw e;
+      }
+    }
+    return this;
+  };
+
+  // Slices the collection up into num-sized arrays, and invokes the callback on them.
+  enumerable.eachSlice = function eachSlice(callback, num, context){
+    if (typeof num !== 'number') { throw new SyntaxError('need a number passed in as a second argument') }
+    context = context || this;
+    var currentSlice = [];
+    this.each(function(item){
+      currentSlice.push(item);
+      if (currentSlice.length == num) {
+        callback.call(context, currentSlice);
+        currentSlice = [];
+      }
+    });
+    if (currentSlice.length) {
+      callback.call(context, currentSlice);
+    }
+    return this;
+  }
+
+  // Iterates the given callback for the first N elements only. If a start index is given, it starts at that element.
+  enumerable.eachUntilN = function eachUntilN(callback, num, context, start){
+    start = start || 0;
+    context = context || this;
+    var index = -1;
+    if (typeof num !== 'number' || num < 0) { throw new TypeError('need a positive integer number as a second argument') }
+    try {
+      this.each(function(item){
+        index++;
+        if (index < start) { return; }
+        callback.call(context, item);
+        num--;
+        if (num === 0) {
+          throw breaker;
+        }
+      });
+    } catch(e) {
+      if (e !== breaker) {
+        throw e;
+      }
+    }
+    return this;
+  };
+
+  // Invokes the callback in reverse order.
+  enumerable.reverseEach = function reverseEach(callback, context){
+    var items = this.toArray();
+    for(var i = items.length - 1; i >= 0; i--){
+      callback.call(context, items[i]);
+    }
+    return this;
+  };
+
+  // Executes the callback on every item in the collection num amount of times.
+  enumerable.cycle = function cycle(callback, num, context){
+    context = context || this;
+    if (typeof num !== 'number') { throw new SyntaxError('need a number passed in as the second argument'); }
+    num = Math.floor(Math.abs(num));
+    while(num){
+      this.each.call(context, callback);
+      num--;
+    }
+    return this;
+  };
+
   // ### Returns an item in the collection
 
   // Returns the first item for which the callback returns truthy.
@@ -246,105 +345,6 @@
       }
     }
     return num === 0;
-  };
-
-  // ### Returns the collection
-
-  // Mutates each item in the collection according to the return value of the callback.
-  // 
-  // **Important to note:** JavaScript primitives are immutable, and this function is designed to mutate each object, so it will not work if the `each` item is a primitive.
-  enumerable.mapInPlace = function mapInPlace(callback, context){
-    context = context || this;
-    this.each(function(item){
-      item = callback.call(context, item);
-    });
-    return this;
-  };
-
-  // Executes the callback on every item in the collection num amount of times.
-  enumerable.cycle = function cycle(callback, num, context){
-    context = context || this;
-    if (typeof num !== 'number') { throw new SyntaxError('need a number passed in as the second argument'); }
-    num = Math.floor(Math.abs(num));
-    while(num){
-      this.each.call(context, callback);
-      num--;
-    }
-    return this;
-  };
-
-  // Invokes the callback on num-consecutive items in an array format.
-  enumerable.eachCons = function eachCons(callback, num, context){
-    context = context || this;
-    var index = 0;
-    var self = this;
-    try {
-      this.each(function(){
-        var collection = [];
-        self.eachUntilN(function(node){
-          collection.push(node);
-        }, num, this, index);
-        if (collection.length !== num) { throw breaker; }
-        callback.call(context, collection);
-        index++;
-      });
-    } catch(e){
-      if (e !== breaker) {
-        throw e;
-      }
-    }
-    return this;
-  };
-
-  // Slices the collection up into num-sized arrays, and invokes the callback on them.
-  enumerable.eachSlice = function eachSlice(callback, num, context){
-    if (typeof num !== 'number') { throw new SyntaxError('need a number passed in as a second argument') }
-    context = context || this;
-    var currentSlice = [];
-    this.each(function(item){
-      currentSlice.push(item);
-      if (currentSlice.length == num) {
-        callback.call(context, currentSlice);
-        currentSlice = [];
-      }
-    });
-    if (currentSlice.length) {
-      callback.call(context, currentSlice);
-    }
-    return this;
-  }
-
-  // Iterates the given callback for the first N elements only. If a start index is given, it starts at that element.
-  enumerable.eachUntilN = function eachUntilN(callback, num, context, start){
-    start = start || 0;
-    context = context || this;
-    var index = -1;
-    if (typeof num !== 'number' || num < 0) { throw new TypeError('need a positive integer number as a second argument') }
-    try {
-      this.each(function(item){
-        index++;
-        if (index < start) { return; }
-        callback.call(context, item);
-        num--;
-        if (num === 0) {
-          throw breaker;
-        }
-      });
-    } catch(e) {
-      if (e !== breaker) {
-        throw e;
-      }
-    }
-    return this;
-  };
-
-  // Invokes the callback in reverse order.
-  enumerable.reverseEach = function reverseEach(callback, context){
-    var items = this.toArray();
-    for(var i = items.length - 1; i >= 0; i--){
-      callback.call(context, items[i]);
-    }
-    return this;
   };
 
   // ### Returns an integer
