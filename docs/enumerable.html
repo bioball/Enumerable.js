@@ -1,0 +1,744 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  <title>enumerable.js</title>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, target-densitydpi=160dpi, initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
+  <link rel="stylesheet" media="all" href="docco.css" />
+</head>
+<body>
+  <div id="container">
+    <div id="background"></div>
+    
+    <ul class="sections">
+        
+          <li id="title">
+              <div class="annotation">
+                  <h1>enumerable.js</h1>
+              </div>
+          </li>
+        
+        
+        
+        <li id="section-1">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-1">&#182;</a>
+              </div>
+              
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>(<span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span>{</span>
+<span class="hljs-pi">
+  'use strict'</span>;
+
+  <span class="hljs-keyword">var</span> root = <span class="hljs-keyword">this</span>;</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-2">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-2">&#182;</a>
+              </div>
+              <p>This is used to “break” out of an each loop</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  <span class="hljs-keyword">var</span> breaker = {};</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-3">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-3">&#182;</a>
+              </div>
+              <p>Store the old enumerable object.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  <span class="hljs-keyword">var</span> oldEnumerable = root.enumerable;
+
+  <span class="hljs-keyword">var</span> enumerable = {};</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-4">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-4">&#182;</a>
+              </div>
+              <p>Version number <strong>0.0.1</strong></p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  enumerable.VERSION = <span class="hljs-string">'0.0.1'</span>;</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-5">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-5">&#182;</a>
+              </div>
+              <p>If enumerable was being used, it may be reinstated by invoking <code>noConflict</code>. However, this will remove the enumerable library unless it is saved to a variable.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  enumerable.noConflict = <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">noConflict</span><span class="hljs-params">()</span>{</span>
+    root.enumerable = oldEnumerable;
+    <span class="hljs-keyword">return</span> enumerable;
+  };</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-6">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-6">&#182;</a>
+              </div>
+              <p>Returns the result of combining all items in the collection into one, via the seed object.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  enumerable.reduce = enumerable.inject = enumerable.foldl = <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">reduce</span><span class="hljs-params">(callback, seed, context)</span>{</span>
+    context = context || <span class="hljs-keyword">this</span>;
+    <span class="hljs-keyword">this</span>.each(<span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(item)</span>{</span>
+      seed = callback.call(context, seed, item);
+    });
+    <span class="hljs-keyword">return</span> seed;
+  };</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-7">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-7">&#182;</a>
+              </div>
+              <p>Returns an array of all items for which the callback returns truthy.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  enumerable.filter = enumerable.select = enumerable.findAll = <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">filter</span><span class="hljs-params">(callback, context)</span>{</span>
+    context = context || <span class="hljs-keyword">this</span>;
+    <span class="hljs-keyword">var</span> result = [];
+    <span class="hljs-keyword">this</span>.each(<span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(item)</span>{</span>
+      <span class="hljs-keyword">if</span>(callback.call(context, item)){
+        result.push(item);
+      }
+    });
+    <span class="hljs-keyword">return</span> result;
+  };</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-8">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-8">&#182;</a>
+              </div>
+              <p>Returns the first item for which the callback returns truthy.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  enumerable.find = <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">find</span><span class="hljs-params">(callback, context)</span>{</span>
+    context = context || <span class="hljs-keyword">this</span>;
+    <span class="hljs-keyword">var</span> result = <span class="hljs-literal">null</span>;
+    <span class="hljs-keyword">try</span> {
+      <span class="hljs-keyword">this</span>.each(<span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(item)</span>{</span>
+        <span class="hljs-keyword">if</span>(callback.call(context, item)){
+          result = item;
+          <span class="hljs-keyword">throw</span> breaker;
+        }
+      });
+    } <span class="hljs-keyword">catch</span>(e) {
+      <span class="hljs-keyword">if</span>(e !== breaker){
+        <span class="hljs-keyword">throw</span> e;
+      }
+    }
+    <span class="hljs-keyword">return</span> result;
+  };</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-9">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-9">&#182;</a>
+              </div>
+              <p>If no condition is supplied, returns the number of items total.
+If a function is supplied as the condition, counts the number of items for which the condition passes.
+Otherwise, counts the number of items that strictly equal the passed in object.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  enumerable.count = <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">count</span><span class="hljs-params">(condition, context)</span>{</span>
+    context = context || <span class="hljs-keyword">this</span>;
+    <span class="hljs-keyword">var</span> result = <span class="hljs-number">0</span>;
+    <span class="hljs-keyword">var</span> callback = <span class="hljs-keyword">typeof</span> condition === <span class="hljs-string">'function'</span> 
+    ? condition 
+    : <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(item)</span>{</span>
+      <span class="hljs-keyword">return</span> item === condition;
+    };
+    <span class="hljs-keyword">this</span>.each(<span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(item)</span>{</span>
+      condition ? callback.call(context, item) &amp;&amp; result++ : result++;
+    });
+    <span class="hljs-keyword">return</span> result;
+  };</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-10">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-10">&#182;</a>
+              </div>
+              <p>Returns true if the callback on every item is truthy.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  enumerable.all = <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">all</span><span class="hljs-params">(callback, context)</span>{</span>
+    context = context || <span class="hljs-keyword">this</span>;
+    <span class="hljs-keyword">try</span> {
+      <span class="hljs-keyword">this</span>.each(<span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(item)</span>{</span>
+        <span class="hljs-keyword">if</span>(!callback.call(context, item)){
+          <span class="hljs-keyword">throw</span> breaker;
+        }
+      });
+    } <span class="hljs-keyword">catch</span>(e) {
+      <span class="hljs-keyword">if</span>(e === breaker){
+        <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;
+      } <span class="hljs-keyword">else</span> {
+        <span class="hljs-keyword">throw</span> e;
+      }
+    }
+    <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;
+  };</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-11">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-11">&#182;</a>
+              </div>
+              <p>Returns true if the callback on any item is truthy.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  enumerable.any = <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">any</span><span class="hljs-params">(callback, context)</span>{</span>
+    context = context || <span class="hljs-keyword">this</span>;
+    <span class="hljs-keyword">return</span> !<span class="hljs-keyword">this</span>.all(<span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(item)</span>{</span>
+      <span class="hljs-keyword">return</span> !callback.call(context, item);
+    });
+  };</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-12">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-12">&#182;</a>
+              </div>
+              <p>Mutates each item in the collection according to the return value of the callback.</p>
+<p><strong>Important to note:</strong> JavaScript primitives are immutable, and this function is designed to mutate each object, so it will not work if the <code>each</code> item is a primitive.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  enumerable.mapInPlace = <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">mapInPlace</span><span class="hljs-params">(callback, context)</span>{</span>
+    context = context || <span class="hljs-keyword">this</span>;
+    <span class="hljs-keyword">this</span>.each(<span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(item)</span>{</span>
+      item = callback.call(context, item);
+    });
+    <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>;
+  };</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-13">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-13">&#182;</a>
+              </div>
+              <p>Returns an array of ths result invoking the callback on each item in the collection.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  enumerable.mapToArray = <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">mapToArray</span><span class="hljs-params">(callback, context)</span>{</span>
+    context = context || <span class="hljs-keyword">this</span>;
+    <span class="hljs-keyword">var</span> result = [];
+    <span class="hljs-keyword">this</span>.each(<span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(item)</span>{</span>
+      result.push(callback.call(context, item));
+    });
+    <span class="hljs-keyword">return</span> result;
+  };</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-14">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-14">&#182;</a>
+              </div>
+              <p>If two objects are passed in, it will extend properties of the first object to the second object. Otherwise, if just one is passed in, it will extend enumerable to that object.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  enumerable.extend = <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">extend</span><span class="hljs-params">(obj1, obj2)</span>{</span>
+    <span class="hljs-keyword">if</span>(!obj2){
+      <span class="hljs-keyword">this</span>.extend(<span class="hljs-keyword">this</span>, obj1);
+    } <span class="hljs-keyword">else</span> {
+      <span class="hljs-keyword">for</span>(<span class="hljs-keyword">var</span> key <span class="hljs-keyword">in</span> obj1){
+        obj2[key] = obj1[key];
+      }
+    }
+  };</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-15">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-15">&#182;</a>
+              </div>
+              <p>Returns all the items in the collection in an array format.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  enumerable.toArray = <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">toArray</span><span class="hljs-params">()</span>{</span>
+    <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.mapToArray(<span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(item)</span>{</span>
+      <span class="hljs-keyword">return</span> item;
+    });
+  };</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-16">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-16">&#182;</a>
+              </div>
+              <p>Executes the callback on every item in the collection num amount of times.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  enumerable.cycle = <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">cycle</span><span class="hljs-params">(callback, num, context)</span>{</span>
+    context = context || <span class="hljs-keyword">this</span>;
+    <span class="hljs-keyword">if</span> (<span class="hljs-keyword">typeof</span> num !== <span class="hljs-string">'number'</span>) { <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-built_in">SyntaxError</span>(<span class="hljs-string">'need a number passed in as the second argument'</span>); }
+    num = <span class="hljs-built_in">Math</span>.floor(<span class="hljs-built_in">Math</span>.abs(num));
+    <span class="hljs-keyword">while</span>(num){
+      <span class="hljs-keyword">this</span>.each.call(context, callback);
+      num--;
+    }
+    <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>;
+  };</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-17">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-17">&#182;</a>
+              </div>
+              <p>Returns the first item for which the callback returns falsy.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  enumerable.detect = <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">detect</span><span class="hljs-params">(callback, context)</span>{</span>
+    context = context || <span class="hljs-keyword">this</span>;
+    <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.find(<span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(node)</span>{</span>
+      <span class="hljs-keyword">return</span> !callback.call(context, node);
+    });
+  };</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-18">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-18">&#182;</a>
+              </div>
+              <p>Invokes the callback on num-consecutive items in an array format.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  enumerable.eachCons = <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">eachCons</span><span class="hljs-params">(callback, num, context)</span>{</span>
+    context = context || <span class="hljs-keyword">this</span>;
+    <span class="hljs-keyword">var</span> index = <span class="hljs-number">0</span>;
+    <span class="hljs-keyword">var</span> self = <span class="hljs-keyword">this</span>;
+    <span class="hljs-keyword">try</span> {
+      <span class="hljs-keyword">this</span>.each(<span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span>{</span>
+        <span class="hljs-keyword">var</span> collection = [];
+        self.eachUntilN(<span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(node)</span>{</span>
+          collection.push(node);
+        }, num, <span class="hljs-keyword">this</span>, index);
+        <span class="hljs-keyword">if</span> (collection.length !== num) { <span class="hljs-keyword">throw</span> breaker; }
+        callback.call(context, collection);
+        index++;
+      });
+    } <span class="hljs-keyword">catch</span>(e){
+      <span class="hljs-keyword">if</span> (e !== breaker) {
+        <span class="hljs-keyword">throw</span> e;
+      }
+    }
+    <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>;
+  };</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-19">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-19">&#182;</a>
+              </div>
+              <p>Slices the collection up into num-sized arrays, and invokes the callback on them.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  enumerable.eachSlice = <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">eachSlice</span><span class="hljs-params">(callback, num, context)</span>{</span>
+    <span class="hljs-keyword">if</span> (<span class="hljs-keyword">typeof</span> num !== <span class="hljs-string">'number'</span>) { <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-built_in">SyntaxError</span>(<span class="hljs-string">'need a number passed in as a second argument'</span>) }
+    context = context || <span class="hljs-keyword">this</span>;
+    <span class="hljs-keyword">var</span> currentSlice = [];
+    <span class="hljs-keyword">this</span>.each(<span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(item)</span>{</span>
+      currentSlice.push(item);
+      <span class="hljs-keyword">if</span> (currentSlice.length == num) {
+        callback.call(context, currentSlice);
+        currentSlice = [];
+      }
+    });
+    <span class="hljs-keyword">if</span> (currentSlice.length) {
+      callback.call(context, currentSlice);
+    }
+    <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>;
+  }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-20">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-20">&#182;</a>
+              </div>
+              <p>Iterates the given callback for the first N elements only. If a start index is given, it starts at that element.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  enumerable.eachUntilN = <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">eachUntilN</span><span class="hljs-params">(callback, num, context, start)</span>{</span>
+    start = start || <span class="hljs-number">0</span>;
+    context = context || <span class="hljs-keyword">this</span>;
+    <span class="hljs-keyword">var</span> index = -<span class="hljs-number">1</span>;
+    <span class="hljs-keyword">if</span> (<span class="hljs-keyword">typeof</span> num !== <span class="hljs-string">'number'</span> || num &lt; <span class="hljs-number">0</span>) { <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-built_in">TypeError</span>(<span class="hljs-string">'need a positive integer number as a second argument'</span>) }
+    <span class="hljs-keyword">try</span> {
+      <span class="hljs-keyword">this</span>.each(<span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(item)</span>{</span>
+        index++;
+        <span class="hljs-keyword">if</span> (index &lt; start) { <span class="hljs-keyword">return</span>; }
+        callback.call(context, item);
+        num--;
+        <span class="hljs-keyword">if</span> (num === <span class="hljs-number">0</span>) {
+          <span class="hljs-keyword">throw</span> breaker;
+        }
+      });
+    } <span class="hljs-keyword">catch</span>(e) {
+      <span class="hljs-keyword">if</span> (e !== breaker) {
+        <span class="hljs-keyword">throw</span> e;
+      }
+    }
+    <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>;
+  };</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-21">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-21">&#182;</a>
+              </div>
+              <p>Returns the first item in the collection. If a numerical argument is given, returns the first num arguments in an array.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  enumerable.first = <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">first</span><span class="hljs-params">(num)</span>{</span>
+    <span class="hljs-keyword">var</span> count = <span class="hljs-number">0</span>;
+    <span class="hljs-keyword">var</span> result;
+    <span class="hljs-keyword">try</span> {
+      <span class="hljs-keyword">if</span> (<span class="hljs-keyword">typeof</span> num !== <span class="hljs-string">'number'</span>) {
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.each(<span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(item)</span>{</span>
+          result = item;
+          <span class="hljs-keyword">throw</span> breaker;
+        });
+      } <span class="hljs-keyword">else</span> {
+        result = [];
+        <span class="hljs-keyword">this</span>.each(<span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(item)</span>{</span>
+          result.push(item);
+          <span class="hljs-keyword">if</span> (result.length == num){
+            <span class="hljs-keyword">throw</span> breaker;
+          }
+        })
+      }
+    } <span class="hljs-keyword">catch</span>(e) {
+      <span class="hljs-keyword">if</span> (e !== breaker) {
+        <span class="hljs-keyword">throw</span> e;
+      }
+    }
+    <span class="hljs-keyword">return</span> result;
+  };</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-22">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-22">&#182;</a>
+              </div>
+              <p>Returns the maximal item in a collection as determined by the callback.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  enumerable.max = <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">max</span><span class="hljs-params">(callback, context)</span>{</span>
+    <span class="hljs-keyword">if</span> (<span class="hljs-keyword">typeof</span> callback !== <span class="hljs-string">'function'</span>) {
+      <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-built_in">SyntaxError</span>(<span class="hljs-string">'need a callback argument'</span>)
+    }
+    context = context || <span class="hljs-keyword">this</span>;
+    <span class="hljs-keyword">var</span> maxObj, maxValue, currentValue;
+    <span class="hljs-keyword">this</span>.each(<span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(currentObj)</span>{</span>
+      currentValue = callback.call(context, currentObj);
+      <span class="hljs-keyword">if</span> (<span class="hljs-keyword">typeof</span> maxObj === <span class="hljs-string">'undefined'</span> || currentValue &gt; maxValue) {
+        maxObj = currentObj;
+        maxValue = currentValue;
+      }
+    });
+    <span class="hljs-keyword">return</span> maxObj;
+  };</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-23">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-23">&#182;</a>
+              </div>
+              <p>Returns the maximal item in a collection as determined by the callback.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  enumerable.min = <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">min</span><span class="hljs-params">(callback, context)</span>{</span>
+    <span class="hljs-keyword">if</span>(<span class="hljs-keyword">typeof</span> callback !== <span class="hljs-string">'function'</span>){
+      <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-built_in">SyntaxError</span>(<span class="hljs-string">'need a callback argument'</span>)
+    }
+    context = context || <span class="hljs-keyword">this</span>;
+    <span class="hljs-keyword">var</span> minObj, minValue, currentValue;
+    <span class="hljs-keyword">this</span>.each(<span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(currentObj)</span>{</span>
+      currentValue = callback.call(context, currentObj);
+      <span class="hljs-keyword">if</span> (<span class="hljs-keyword">typeof</span> minObj === <span class="hljs-string">'undefined'</span> || currentValue &lt; minValue) {
+        minObj = currentObj;
+        minValue = currentValue;
+      }
+    });
+    <span class="hljs-keyword">return</span> minObj;
+  };</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-24">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-24">&#182;</a>
+              </div>
+              <p>Returns true if none of the items return truthy from the callback.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  enumerable.none = <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">none</span><span class="hljs-params">(callback, context)</span>{</span>
+    context = context || <span class="hljs-keyword">this</span>;
+    <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.all(<span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(item)</span>{</span>
+      <span class="hljs-keyword">return</span> !callback.call(context, item);
+    });
+  };</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-25">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-25">&#182;</a>
+              </div>
+              <p>Returns a boolean of whether a collection has num-number of items that return truthy from the callback.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  enumerable.hasN = <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">hasN</span><span class="hljs-params">(callback, num, context)</span>{</span>
+    context = context || <span class="hljs-keyword">this</span>;
+    num = num || <span class="hljs-number">1</span>;
+    <span class="hljs-keyword">try</span> {
+      <span class="hljs-keyword">this</span>.each(<span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(item)</span>{</span>
+        <span class="hljs-keyword">if</span>(callback.call(context, item)){
+          num--;
+        }
+        <span class="hljs-keyword">if</span>(num &lt; <span class="hljs-number">0</span>){
+          <span class="hljs-keyword">throw</span> breaker;
+        }
+      })
+    } <span class="hljs-keyword">catch</span> (e){
+      <span class="hljs-keyword">if</span> (e !== breaker) {
+        <span class="hljs-keyword">throw</span> e;
+      }
+    }
+    <span class="hljs-keyword">return</span> num === <span class="hljs-number">0</span>;
+  };</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-26">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-26">&#182;</a>
+              </div>
+              <p>Returns two arrays, one with items which pass the callback, and one which does not.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  enumerable.partition = <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">partition</span><span class="hljs-params">(callback, context)</span>{</span>
+    <span class="hljs-keyword">var</span> pass = [];
+    <span class="hljs-keyword">var</span> fail = [];
+    <span class="hljs-keyword">this</span>.each(<span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(item)</span>{</span>
+      <span class="hljs-keyword">if</span>(callback.call(context, item)){
+        pass.push(item);
+      } <span class="hljs-keyword">else</span> {
+        fail.push(item);
+      }
+    })
+    <span class="hljs-keyword">return</span> [pass, fail];
+  };</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-27">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-27">&#182;</a>
+              </div>
+              <p>Invokes the callback in reverse order.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  enumerable.reverseEach = <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">reverseEach</span><span class="hljs-params">(callback, context)</span>{</span>
+    <span class="hljs-keyword">var</span> items = <span class="hljs-keyword">this</span>.toArray();
+    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">var</span> i = items.length - <span class="hljs-number">1</span>; i &gt;= <span class="hljs-number">0</span>; i--){
+      callback.call(context, items[i]);
+    }
+    <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>;
+  };</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-28">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-28">&#182;</a>
+              </div>
+              <p>Returns an array of items sorted in ascending order by the callback.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  enumerable.sort = <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">sort</span><span class="hljs-params">(callback, context)</span>{</span>
+    <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.toArray().sort(<span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(node1, node2)</span>{</span>
+      <span class="hljs-keyword">var</span> result1 = callback.call(context, node1);
+      <span class="hljs-keyword">var</span> result2 = callback.call(context, node2);
+      <span class="hljs-keyword">if</span> (result1 &gt; result2) {
+        <span class="hljs-keyword">return</span> <span class="hljs-number">1</span>;
+      } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (result1 &lt; result2) {
+        <span class="hljs-keyword">return</span> -<span class="hljs-number">1</span>;
+      } <span class="hljs-keyword">else</span> {
+        <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+      }
+    });
+  };</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-29">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-29">&#182;</a>
+              </div>
+              <p>Assign enumerable to <code>exports</code> and <code>module.exports</code> in the server, and <code>window</code> in the browser.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  <span class="hljs-keyword">if</span> (<span class="hljs-keyword">typeof</span> exports !== <span class="hljs-string">'undefined'</span>) {
+    <span class="hljs-keyword">if</span> (<span class="hljs-keyword">typeof</span> module !== <span class="hljs-string">'undefined'</span> &amp;&amp; module.exports) {
+      exports = module.exports = enumerable;
+    }
+    exports.enumerable = enumerable;
+  } <span class="hljs-keyword">else</span> {
+    root.enumerable = enumerable
+  }
+
+}).call(<span class="hljs-keyword">this</span>);</pre></div></div>
+            
+        </li>
+        
+    </ul>
+  </div>
+</body>
+</html>
