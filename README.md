@@ -9,6 +9,19 @@ This library is heavily inspired by Ruby's Enumerable module, and borrows great 
 
 Note: This is *not* meant to be a standalone library, but to be used in conjunction with another data type that has a defineable `.each` method.
 
+
+Installation
+------------
+
+As an NPM module
+`npm install enumerable-js`
+
+As a bower package
+`bower install enumerable-js`
+
+From Github
+`git clone git@github.com:bioball/Enumerable.js.git`
+
 Quickstart
 ----------
 
@@ -92,16 +105,16 @@ Supported functions
 **Returns the collection**
 * mapInPlace
 * eachCons
-* eachUntilN
 * eachSlice
+* eachUntilN
 * reverseEach
 * cycle
 
 **Returns an item in the collection**
+* find
 * max
 * min
 * detect
-* find
 
 **Returns a boolean**
 * all
@@ -111,18 +124,6 @@ Supported functions
 
 **Returns an integer**
 * count
-
-Installation
-------------
-
-As an NPM module
-`npm install enumerable-js`
-
-As a bower package
-`bower install enumerable-js`
-
-From Github
-`git clone git@github.com:bioball/Enumerable.js.git`
 
 ---
 
