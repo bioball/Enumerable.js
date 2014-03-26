@@ -19,8 +19,6 @@
   
   enumerable.VERSION = '0.0.1';
 
-  // ---
-
   // ### Returns as specified
 
   // Returns the result of combining all items in the collection into one, via the seed object.
