@@ -737,10 +737,10 @@ Otherwise, counts the number of items that strictly equal the passed in object.<
     context = context || <span class="hljs-keyword">this</span>;
     <span class="hljs-keyword">var</span> result = <span class="hljs-number">0</span>;
     <span class="hljs-keyword">var</span> callback = <span class="hljs-keyword">typeof</span> condition === <span class="hljs-string">'function'</span> 
-    ? condition 
-    : <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(item)</span>{</span>
-      <span class="hljs-keyword">return</span> item === condition;
-    };
+      ? condition 
+      : <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(item)</span>{</span>
+          <span class="hljs-keyword">return</span> item === condition;
+        };
     <span class="hljs-keyword">this</span>.each(<span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(item)</span>{</span>
       condition ? callback.call(context, item) &amp;&amp; result++ : result++;
     });

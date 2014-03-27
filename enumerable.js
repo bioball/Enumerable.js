@@ -340,10 +340,10 @@
     context = context || this;
     var result = 0;
     var callback = typeof condition === 'function' 
-    ? condition 
-    : function(item){
-      return item === condition;
-    };
+      ? condition 
+      : function(item){
+          return item === condition;
+        };
     this.each(function(item){
       condition ? callback.call(context, item) && result++ : result++;
     });
