@@ -8,7 +8,7 @@
 
   var root = this;
 
-  // This is used to "break" out of an each loop.
+  // This is used to "break" out of an `each` loop.
   var breaker = {};
 
   // Store the old enumerable object.
