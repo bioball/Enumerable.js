@@ -1,6 +1,8 @@
 Enumerable.js
 =============
 
+[![Build Status](https://travis-ci.org/bioball/Enumerable.js.svg?branch=master)](https://travis-ci.org/bioball/Enumerable.js)
+
 ### *utility functions for all types of collections*
 
 When you use a JavaScript array or hash table, you have so many ways to get utility functions at your disposal through libraries like Underscore, Zepto, jQuery, or natively in ECMAScript5. Why can't we have these same utility functions just as easily for other data structures that can be iterated over? Say, a linked list, or a tree, or a graph, or that newest thing that your monkey came up with?
